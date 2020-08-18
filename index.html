@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input class="form-control" id="random_output" type="text" disabled>
+                    <button class="generate-btn" id="btn_generate_pin">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input class="form-control" id="input_number" type="text" disabled>
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div class="button" onclick="getInput(7)">7</div>
+                              <div class="button" onclick="getInput(8)">8</div>
+                              <div class="button" onclick="getInput(9)">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="getInput(4)">4</div>
+                              <div class="button" onclick="getInput(5)">5</div>
+                              <div class="button" onclick="getInput(6)">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="getInput(1)">1</div>
+                              <div class="button" onclick="getInput(2)">2</div>
+                              <div class="button" onclick="getInput(3)">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" onclick="getInput('<')"><</div>
+                                <div class="button" onclick="getInput(0)">0</div>
+                                <div class="button" onclick="getInput('c')">C</div>
+                            </div>
+                            <div>
+                                <button type="submit" class="submit-btn"onclick="isMatch()">Submit</button>
+                                <p class="action-left">3 try left</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <p class="notify" id="notify_not_match">❌ Pin Didn't Match, Please try again</p>
+            <p class="notify" id="notify_match">✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+
+    <script>
+        //function for random number with four digit.
+        var generatePin = document.getElementById('btn_generate_pin');
+        generatePin.addEventListener('click',function(){
+            var random_number = Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('random_output').value = random_number;
+        })
+        document.getElementById('random_output').value = "";
+
+        //function for number input.
+        function getInput(num) {
+            var firstNumber = num;
+            if (firstNumber === 'c') {
+                document.getElementById('input_number').value = '';
+            }else if (firstNumber === '<') {
+                document.getElementById('input_number').value = document.getElementById('input_number').value.slice(0,-1);
+            }
+            else{
+                document.getElementById('input_number').value = document.getElementById('input_number').value +=num;
+            }
+        }
+        //function for submit button.
+        function isMatch(){
+            var randomNumber = document.getElementById('random_output').value;
+            var inputNumber = document.getElementById('input_number').value;
+            if (randomNumber == inputNumber) {
+                document.getElementById('notify_match').style.display='block';
+                document.getElementById('notify_not_match').style.display='none'
+            }else{
+                document.getElementById('notify_match').style.display='none';
+                document.getElementById('notify_not_match').style.display='block';
+            }
+        }
+        document.getElementById('input_number').value = "";
+    </script>
+
+</body>
+</html>
